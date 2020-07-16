@@ -1,0 +1,8 @@
+---
+# defaults file for thanos
+thanos_ver: 0.14.0
+thanos_mirror: https://github.com/thanos-io/thanos/releases/download
+thanos_os: linux
+thanos_arch: amd64
+thanos_parent_install_dir: /usr/local
+

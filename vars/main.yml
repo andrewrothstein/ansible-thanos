@@ -1,0 +1,12 @@
+---
+# vars file for thanos
+thanos_checksums_url: '{{ thanos_mirror }}/v{{ thanos_ver }}/sha256sums.txt'
+thanos_platform: '{{ thanos_os }}-{{ thanos_arch }}'
+thanos_name: thanos-{{ thanos_ver }}.{{ thanos_platform }}
+thanos_archive: '{{ thanos_name }}.tar.gz'
+thanos_url: '{{ thanos_mirror }}/v{{ thanos_ver }}/{{ thanos_archive }}'
+thanos_install_dir: '{{ thanos_parent_install_dir }}/{{ thanos_name }}'
+thanos_links:
+  - thanos
+  - thanos-{{ thanos_ver }}
+  - '{{ thanos_name }}'

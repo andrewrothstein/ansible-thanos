@@ -10,37 +10,37 @@
       paths:
         - '{{ role_path }}/vars'
 - name: check for existing install of {{ thanos_name }}...
-  become: yes
+  become: true
   stat:
     path: '{{ thanos_install_dir }}'
   register: thanos_binary
 - when: not thanos_binary.stat.exists
   block:
-    - name: download {{ thanos_url }} to /tmp/{{ thanos_archive }}
-      become: yes
+    - name: download {{ thanos_url }} to {{ thanos_tmp_archive }}
+      become: true
       become_user: root
       get_url:
         url: '{{ thanos_url }}'
-        dest: /tmp/{{ thanos_archive }}
+        dest: '{{ thanos_tmp_archive }}'
         mode: 0644
         checksum: sha256:{{ thanos_checksums_url }}
-    - name: unarchiving /tmp/{{ thanos_archive }}
-      become: yes
+    - name: unarchiving '{{ thanos_tmp_archive }}'
+      become: true
       become_user: root
       unarchive:
-        remote_src: yes
-        src: /tmp/{{ thanos_archive }}
+        remote_src: true
+        src: '{{ thanos_tmp_archive }}'
         dest: '{{ thanos_parent_install_dir }}'
         creates: '{{ thanos_install_dir }}'
   always:
-    - name: delete /tmp/{{ thanos_archive }}
-      become: yes
+    - name: delete '{{ thanos_tmp_archive }}'
+      become: true
       become_user: root
       file:
-        path: /tmp/{{ thanos_archive }}
+        path: '{{ thanos_tmp_archive }}'
         state: absent
 - name: create links for {{ thanos_name }}
-  become: yes
+  become: true
   become_user: root
   with_items: '{{ thanos_links }}'
   file:

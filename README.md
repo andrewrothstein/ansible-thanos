@@ -1,6 +1,6 @@
 andrewrothstein.thanos
 =========
-[![Build Status](https://travis-ci.org/andrewrothstein/ansible-thanos.svg?branch=master)](https://travis-ci.org/andrewrothstein/ansible-thanos)
+![Build Status](https://github.com/andrewrothstein/ansible-thanos/actions/workflows/build.yml/badge.svg)
 
 Installs [Thanos](https://thanos.io/).
 

@@ -1,5 +1,7 @@
 ---
 # vars file for thanos
+thanos_os: '{{ ansible_system | lower }}'
+thanos_arch: '{{ thanos_arch_map[ansible_architecture] }}'
 thanos_checksums_url: '{{ thanos_mirror }}/v{{ thanos_ver }}/sha256sums.txt'
 thanos_platform: '{{ thanos_os }}-{{ thanos_arch }}'
 thanos_name: thanos-{{ thanos_ver }}.{{ thanos_platform }}

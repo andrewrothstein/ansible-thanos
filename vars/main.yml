@@ -6,7 +6,7 @@ thanos_checksums_url: '{{ thanos_mirror }}/v{{ thanos_ver }}/sha256sums.txt'
 thanos_platform: '{{ thanos_os }}-{{ thanos_arch }}'
 thanos_name: thanos-{{ thanos_ver }}.{{ thanos_platform }}
 thanos_archive: '{{ thanos_name }}.tar.gz'
-thanos_tmp_archive: /tmp/{{ thanos_archive }}
+thanos_tmp_archive: '{{ thanos_tmp_dir | default("/tmp") }}/{{ thanos_archive }}'
 thanos_url: '{{ thanos_mirror }}/v{{ thanos_ver }}/{{ thanos_archive }}'
 thanos_install_dir: '{{ thanos_parent_install_dir }}/{{ thanos_name }}'
 thanos_links:

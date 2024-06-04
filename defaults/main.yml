@@ -1,6 +1,6 @@
 ---
 # defaults file for thanos
-thanos_ver: 0.31.0
+thanos_ver: 0.35.1
 thanos_mirror: https://github.com/thanos-io/thanos/releases/download
 thanos_arch_map:
   aarch64: arm64

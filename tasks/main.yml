@@ -1,8 +1,6 @@
 ---
-- include_role:
-    name: andrewrothstein.unarchivedeps
-- name: resolve platform specific vars
-  include_vars: '{{ item }}'
+- name: Resolve platform specific vars
+  ansible.builtin.include_vars: '{{ item }}'
   with_first_found:
     - files:
         - '{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml'
@@ -11,41 +9,45 @@
       skip: true
       paths:
         - '{{ role_path }}/vars'
-- name: check for existing install of {{ thanos_name }}...
+- name: Check for existing install of {{ thanos_name }}...
   become: true
-  stat:
+  ansible.builtin.stat:
     path: '{{ thanos_install_dir }}'
   register: thanos_binary
-- when: not thanos_binary.stat.exists
+- name: Downloading and installing thanos
+  when: not thanos_binary.stat.exists
   block:
-    - name: download {{ thanos_url }} to {{ thanos_tmp_archive }}
+    - name: Download {{ thanos_url }} to {{ thanos_tmp_archive }}
       become: true
       become_user: root
-      get_url:
+      ansible.builtin.get_url:
         url: '{{ thanos_url }}'
         dest: '{{ thanos_tmp_archive }}'
-        mode: 0644
+        mode: '644'
         checksum: sha256:{{ thanos_checksums_url }}
-    - name: unarchiving '{{ thanos_tmp_archive }}'
+    - name: Installing andrewrothstein.unarchivedeps
+      ansible.builtin.include_role:
+        name: andrewrothstein.unarchivedeps
+    - name: Unarchiving '{{ thanos_tmp_archive }}'
       become: true
       become_user: root
-      unarchive:
+      ansible.builtin.unarchive:
         remote_src: true
         src: '{{ thanos_tmp_archive }}'
         dest: '{{ thanos_parent_install_dir }}'
         creates: '{{ thanos_install_dir }}'
   always:
-    - name: delete '{{ thanos_tmp_archive }}'
+    - name: Rm -f {{ thanos_tmp_archive }}
       become: true
       become_user: root
-      file:
+      ansible.builtin.file:
         path: '{{ thanos_tmp_archive }}'
         state: absent
-- name: create links for {{ thanos_name }}
+- name: Create links for {{ thanos_name }}
   become: true
   become_user: root
   with_items: '{{ thanos_links }}'
-  file:
+  ansible.builtin.file:
     src: '{{ thanos_install_dir }}/thanos'
     dest: '{{ thanos_parent_install_dir }}/bin/{{ item }}'
     state: link
